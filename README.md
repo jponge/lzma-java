@@ -1,5 +1,9 @@
 # LZMA library for Java #
 
+[http://jponge.github.com/lzma-java](http://jponge.github.com/lzma-java)
+
+This library provides LZMA compression for applications that run on the Java platform.
+
 ## Background ##
 
 This library is based on the [Java LZMA SDK](http://www.7-zip.org/sdk.html) by Igor Pavlov.

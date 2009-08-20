@@ -12,7 +12,7 @@
     <version>0.9-SNAPSHOT</version>
     
     <name>LZMA library for Java</name>    
-    <url>http://github.com/jponge/lzma-java</url>
+    <url>http://jponge.github.com/lzma-java</url>
     
     <dependencies/>
 
