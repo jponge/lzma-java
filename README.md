@@ -2,7 +2,7 @@
 
 ## Background ##
 
-This library is based on the Java LZMA SDK by Igor Pavlov at http://www.7-zip.org/sdk.html.
+This library is based on the [Java LZMA SDK](http://www.7-zip.org/sdk.html) by Igor Pavlov.
 
 While the code works just fine, any potential user will quickly realize that:
 
@@ -25,21 +25,21 @@ rewrite was clearly a hard task. I decided to create this library as follows.
 6. Do some profiling.
 7. Build a streaming api that would fit into java.io streams.
 
-Although not a derivate work, the streaming api classes were inspired from the work
-of Christopher League at http://contrapunctus.net/league/haques/lzmajio/. I reused
+Although not a derivate work, the streaming api classes were inspired from 
+[the work of Christopher League](http://contrapunctus.net/league/haques/lzmajio/). I reused
 his technique of fake streams and working threads to pass the data around between
 encoders/decoders and "normal" Java streams.
 
 ## License ##
 
 The LZMA SDK is in the public domain. I relicensed the whole under the liberal
-Apache License Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+[Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 ## Contact ##
 
-* <julien.ponge@gmail.com>
-* http://julien.ponge.info/
+* julien.ponge@gmail.com
+* [http://julien.ponge.info/](http://julien.ponge.info/)
 
 The code, downloads and issue trackers are made available from GitHub at
-http://github.com/jponge/lzma-java. Do not hesitate to contribute by forking
-and asking for pulls!
+[http://github.com/jponge/lzma-java](http://github.com/jponge/lzma-java).
+Do not hesitate to contribute by forking and asking for pulls!
