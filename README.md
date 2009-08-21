@@ -14,7 +14,8 @@ While the code works just fine, any potential user will quickly realize that:
 * the code does not follow Java conventions (e.g., methods names start by
   capital letters)
 * configuration of the LZMA encoder and decoders require passing around
-  arrays and numbers for which no documentation or constants is available, and
+  arrays and numbers for which no proper documentation or constants exists
+  other than source code, and
 * ...there is no stream api to plug into java.io streams.
 
 There is unfortunately no public description of the LZMA algorithms, so a
