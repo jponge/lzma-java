@@ -30,6 +30,8 @@
 package lzma.streams;
 
 import lzma.sdk.lzma.Encoder;
+import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT2;
+import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT4;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -192,4 +194,97 @@ public class LzmaOutputStream extends FilterOutputStream
         }
     }
 
+    /**
+     * A convenient builder that makes it easier to configure the LZMA encoder.
+     * Default values:
+     * <ul>
+     * <li>dictionnary size: max</li>
+     * <li>end marker mode: true</li>
+     * <li>match finder: BT4</li>
+     * <li>number of fast bytes: 0x20</li>
+     * </ul>
+     */
+    public static class Builder
+    {
+        private final OutputStream out;
+
+        private int dictionnarySize = 28;
+
+        private boolean endMarkerMode = true;
+
+        private int matchFinder = EMatchFinderTypeBT4;
+
+        private int numFastBytes = 0x20;
+
+        public Builder(OutputStream out)
+        {
+            this.out = out;
+        }
+
+        public Builder useMaximalDictionarySize()
+        {
+            dictionnarySize = 28;
+            return this;
+        }
+
+        public Builder useMediumDictionarySize()
+        {
+            dictionnarySize = 15;
+            return this;
+        }
+
+        public Builder useMinimalDictionarySize()
+        {
+            dictionnarySize = 1;
+            return this;
+        }
+
+        public Builder useEndMarkerMode(boolean endMarkerMode)
+        {
+            this.endMarkerMode = endMarkerMode;
+            return this;
+        }
+
+        public Builder useBT4MatchFinder()
+        {
+            matchFinder = EMatchFinderTypeBT4;
+            return this;
+        }
+
+        public Builder useBT2MatchFinder()
+        {
+            matchFinder = EMatchFinderTypeBT2;
+            return this;
+        }
+
+        public Builder useMinimalFastBytes()
+        {
+            numFastBytes = 5;
+            return this;
+        }
+
+        public Builder useMediumFastBytes()
+        {
+            numFastBytes = 0x20;
+            return this;
+        }
+
+        public Builder useMaximalFastBytes()
+        {
+            numFastBytes = 273;
+            return this;
+        }
+
+        public LzmaOutputStream build()
+        {
+            Encoder encoder = new Encoder();
+
+            encoder.setDictionarySize(dictionnarySize);
+            encoder.setEndMarkerMode(endMarkerMode);
+            encoder.setMatchFinder(matchFinder);
+            encoder.setNumFastBytes(numFastBytes);
+
+            return new LzmaOutputStream(out, encoder, true);
+        }
+    }
 }

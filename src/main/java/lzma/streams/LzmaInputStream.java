@@ -45,7 +45,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class LzmaInputStream extends FilterInputStream
 {
-
     private final Decoder decoder;
 
     private final boolean decoderConfigured;
@@ -219,4 +218,5 @@ public class LzmaInputStream extends FilterInputStream
         checkForException();
         return read(b, 0, b.length);
     }
+
 }
