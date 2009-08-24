@@ -93,8 +93,6 @@ public class LzmaOutputStream extends FilterOutputStream
             {
                 if (!encoderConfigured)
                 {
-                    encoder.setDictionarySize(28);
-                    encoder.setEndMarkerMode(true);
                     encoder.writeCoderProperties(out);
                 }
                 encoder.code(fakeInputStream, out, -1, -1, null);
@@ -284,7 +282,7 @@ public class LzmaOutputStream extends FilterOutputStream
             encoder.setMatchFinder(matchFinder);
             encoder.setNumFastBytes(numFastBytes);
 
-            return new LzmaOutputStream(out, encoder, true);
+            return new LzmaOutputStream(out, encoder, false);
         }
     }
 }
