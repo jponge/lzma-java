@@ -7,19 +7,21 @@ This library provides LZMA compression for applications that run on the Java pla
 ## Background ##
 
 This library is based on the [Java LZMA SDK](http://www.7-zip.org/sdk.html) by Igor Pavlov.
+It provides some deserved enhancements.
 
-While the code works just fine, any potential user will quickly realize that:
+While the original code works just fine, it has some serious issues for Java developers:
 
-* this is a straight port of non-object procedural code written in C to Java, and
+* this is a straight port of non-object, procedural code written in C to Java, and
 * the code does not follow Java conventions (e.g., methods names start by
   capital letters)
 * configuration of the LZMA encoder and decoders require passing around
   arrays and numbers for which no proper documentation or constants exists
   other than source code, and
-* ...there is no stream api to plug into java.io streams.
+* ...there is no stream api to plug into `java.io` streams.
 
-There is unfortunately no public description of the LZMA algorithms, so a
-rewrite was clearly a hard task. I decided to create this library as follows.
+There is unfortunately no public description of the LZMA algorithms other than source code, 
+so a rewrite was clearly a hard task. I decided to create this library using the following
+methodology.
 
 1. Import the Java LZMA SDK code.
 2. Convert methods and package names to Java conventions.
@@ -28,12 +30,68 @@ rewrite was clearly a hard task. I decided to create this library as follows.
 5. Run static code analysis to clean the code (unused variables, unusued parameters,
    unused methods, expressions simplifications and more).
 6. Do some profiling.
-7. Build a streaming api that would fit into java.io streams.
+7. Build a streaming api that would fit into `java.io` streams.
+8. Provide some higher-level abstractions to the LZMA encoder / decoders configuration.
 
 Although not a derivate work, the streaming api classes were inspired from 
 [the work of Christopher League](http://contrapunctus.net/league/haques/lzmajio/). I reused
 his technique of fake streams and working threads to pass the data around between
 encoders/decoders and "normal" Java streams.
+
+## Usage ##
+
+There are two main Java package hierarchies:
+
+* `lzma.sdk` is the (reworked) Java LZMA SDK code, and
+* `lzma.streams` contains the `LzmaInputStream` and `LzmaInputStream` classes.
+
+You will probably only be interested in using the `lzma.streams` package. The two
+stream classes use the good practices of constructor dependency injection, and you will
+need to pass them the decorated streams and LZMA encoder / decoders from the SDK.
+
+You can simply instanciate a `Decoder` and pass it to the constructor of `LzmaInputStream`
+without specifying further configuration: it will read it from the input stream.
+
+The `Encoder` class that `LzmaOutputStream` depends on needs some configuration. You can
+either do it manually (checkout the `Encoder` class to guess what those integer values mean!), 
+or you can use the `LzmaOutputStream.Builder` class which makes it much easier to configure.
+
+The following code is from a unit test. It should make the basic usage of the library relatively
+obvious:
+
+    public void test_round_trip() throws IOException
+    {
+        final File sourceFile = new File("LICENSE");
+        final File compressed = File.createTempFile("lzma-java", "compressed");
+        final File unCompressed = File.createTempFile("lzma-java", "uncompressed");
+        
+        final LzmaOutputStream compressedOut = new LzmaOutputStream.Builder(
+                new BufferedOutputStream(new FileOutputStream(compressed)))
+                .useMaximalDictionarySize()
+                .useEndMarkerMode(true)
+                .useBT4MatchFinder()
+                .build();
+        
+        final InputStream sourceIn = new BufferedInputStream(new FileInputStream(sourceFile));
+        
+        copy(sourceIn, compressedOut);
+        sourceIn.close();
+        compressedOut.close();
+        
+        final LzmaInputStream compressedIn = new LzmaInputStream(
+                new BufferedInputStream(new FileInputStream(compressed)),
+                new Decoder());
+                
+        final OutputStream uncompressedOut = new BufferedOutputStream(
+                new FileOutputStream(unCompressed));
+                
+        copy(compressedIn, uncompressedOut);
+        compressedIn.close();
+        uncompressedOut.close();
+        
+        assertTrue(contentEquals(sourceFile, unCompressed));
+        assertFalse(contentEquals(sourceFile, compressed));
+    }
 
 ## License ##
 
