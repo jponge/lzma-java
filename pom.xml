@@ -9,10 +9,31 @@
     <artifactId>lzma-java</artifactId>
 
     <packaging>jar</packaging>
-    <version>0.9-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
-    <name>LZMA library for Java</name>
+    <name>LZMA Java</name>
+    <description>LZMA library for Java</description>
     <url>http://jponge.github.com/lzma-java</url>
+
+    <licenses>
+        <license>
+            <name>Apache License Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
+    <developers>
+        <developer>
+            <id>jponge</id>
+            <name>Julien Ponge</name>
+            <email>julien.ponge@gmail.com</email>
+            <url>http://julien.ponge.info/</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
 
     <dependencies>
         <dependency>
@@ -28,6 +49,16 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    
+    <scm>
+        <connection>scm:git:git://github.com/jponge/lzma-java.git</connection>
+        <url>http://github.com/jponge/lzma-java/tree/master</url>
+    </scm>
+    
+    <issueManagement>
+        <system>GitHub</system>
+        <url>http://github.com/jponge/lzma-java/issues</url>
+    </issueManagement>
 
     <build>
         <plugins>
