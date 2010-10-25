@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>lzma-java</groupId>
+    <groupId>com.github.jponge.lzma-java</groupId>
     <artifactId>lzma-java</artifactId>
 
     <packaging>jar</packaging>
