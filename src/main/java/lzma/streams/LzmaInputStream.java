@@ -109,6 +109,9 @@ public class LzmaInputStream extends FilterInputStream
                     byte[] properties = new byte[5];
                     in.read(properties);
                     decoder.setDecoderProperties(properties);
+                    
+                    // skip 8 bytes for file size
+                    in.skip( 8 );
                 }
 
                 decoder.code(in, fakeOutputStream, -1);
