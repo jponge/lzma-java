@@ -206,7 +206,7 @@ public class LzmaOutputStream extends FilterOutputStream
     {
         private final OutputStream out;
 
-        private int dictionnarySize = 28;
+        private int dictionnarySize = 1 << 23;
 
         private boolean endMarkerMode = true;
 
@@ -221,13 +221,13 @@ public class LzmaOutputStream extends FilterOutputStream
 
         public Builder useMaximalDictionarySize()
         {
-            dictionnarySize = 28;
+            dictionnarySize = 1 << 28;
             return this;
         }
 
         public Builder useMediumDictionarySize()
         {
-            dictionnarySize = 15;
+            dictionnarySize = 1 << 15;
             return this;
         }
 
