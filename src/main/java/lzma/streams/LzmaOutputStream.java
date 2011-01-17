@@ -97,7 +97,9 @@ public class LzmaOutputStream extends FilterOutputStream
 
                     // write -1 as "unknown" for file size
                     for ( int i = 0; i < 8; i++ )
+                    {
                         out.write( (int) ( -1 >>> ( 8 * i ) ) & 0xFF );
+                    }
                 }
                 encoder.code(fakeInputStream, out, -1, -1, null);
             }
