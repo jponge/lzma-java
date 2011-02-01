@@ -10,7 +10,10 @@
 .settings/
 
 # Intellij
+.idea/
 *.ipr
+*.iml
+*.iws
 
 # Maven related (and some plugins)
 target/
