@@ -1,8 +1,7 @@
 /*
- *  Copyright (c) 2011 Tamas Cservenak. All rights reserved.
+ *  Copyright (c) 2010-2011 Julien Ponge. All rights reserved.
  *
- *  <tamas@cservenak.com>
- *  http://www.cservenak.com/
+ *  Portions Copyright (c) 2011 Tamas Cservenak.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,47 +18,42 @@
 
 package lzma.streams;
 
-import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT2;
-import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT4;
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import lzma.sdk.lzma.Encoder;
 
-import org.cservenak.streams.Coder;
+import org.cservenak.streams.CoderOutputStream;
 
-public class LzmaEncoderWrapper
-    implements Coder
+import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT2;
+import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT4;
+
+/**
+ * An output stream that uses LZMA compression.
+ *
+ * @author Julien Ponge
+ * @author Tamas Cservenak
+ */
+public class LzmaOutputStream
+    extends CoderOutputStream
 {
-    private final Encoder encoder;
-
-    public LzmaEncoderWrapper( final Encoder encoder )
-    {
-        this.encoder = encoder;
-    }
-
-    @Override
-    public void code( final InputStream in, final OutputStream out )
+    public LzmaOutputStream( final OutputStream out, final LzmaEncoderWrapper wrapper )
         throws IOException
     {
-        encoder.writeCoderProperties( out );
+        super( out, wrapper );
+    }
 
-        // write -1 as "unknown" for file size
-        long fileSize = -1;
-        for ( int i = 0; i < 8; i++ )
-        {
-            out.write( (int) ( fileSize >>> ( 8 * i ) ) & 0xFF );
-        }
-
-        encoder.code( in, out, -1, -1, null );
+    public LzmaOutputStream( final OutputStream out, final Encoder lzmaEncoder )
+        throws IOException
+    {
+        this( out, new LzmaEncoderWrapper( lzmaEncoder ) );
     }
 
     /**
-     * A convenient builder that makes it easier to configure the LZMA encoder. Default values:
+     * A convenient builder that makes it easier to configure the LZMA encoder.
+     * Default values:
      * <ul>
-     * <li>dictionnary size: 23 (almost max, so is memory hungry)</li>
+     * <li>dictionnary size: max</li>
      * <li>end marker mode: true</li>
      * <li>match finder: BT4</li>
      * <li>number of fast bytes: 0x20</li>
@@ -67,6 +61,8 @@ public class LzmaEncoderWrapper
      */
     public static class Builder
     {
+        private final OutputStream out;
+
         private int dictionnarySize = 1 << 23;
 
         private boolean endMarkerMode = true;
@@ -74,6 +70,11 @@ public class LzmaEncoderWrapper
         private int matchFinder = EMatchFinderTypeBT4;
 
         private int numFastBytes = 0x20;
+
+        public Builder(OutputStream out)
+        {
+            this.out = out;
+        }
 
         public Builder useMaximalDictionarySize()
         {
@@ -93,7 +94,7 @@ public class LzmaEncoderWrapper
             return this;
         }
 
-        public Builder useEndMarkerMode( boolean endMarkerMode )
+        public Builder useEndMarkerMode(boolean endMarkerMode)
         {
             this.endMarkerMode = endMarkerMode;
             return this;
@@ -129,16 +130,16 @@ public class LzmaEncoderWrapper
             return this;
         }
 
-        public LzmaEncoderWrapper build()
+        public LzmaOutputStream build() throws IOException
         {
             Encoder encoder = new Encoder();
 
-            encoder.setDictionarySize( dictionnarySize );
-            encoder.setEndMarkerMode( endMarkerMode );
-            encoder.setMatchFinder( matchFinder );
-            encoder.setNumFastBytes( numFastBytes );
+            encoder.setDictionarySize(dictionnarySize);
+            encoder.setEndMarkerMode(endMarkerMode);
+            encoder.setMatchFinder(matchFinder);
+            encoder.setNumFastBytes(numFastBytes);
 
-            return new LzmaEncoderWrapper( encoder );
+            return new LzmaOutputStream(out, encoder);
         }
     }
 }
