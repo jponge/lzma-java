@@ -43,7 +43,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author Julien Ponge
  */
-public class LzmaInputStream extends FilterInputStream
+public class OldLzmaInputStream extends FilterInputStream
 {
     private final Decoder decoder;
 
@@ -131,12 +131,12 @@ public class LzmaInputStream extends FilterInputStream
 
     });
 
-    public LzmaInputStream(InputStream in, Decoder decoder)
+    public OldLzmaInputStream(InputStream in, Decoder decoder)
     {
         this(in, decoder, false);
     }
 
-    public LzmaInputStream(InputStream in, Decoder decoder, boolean isDecoderConfigured)
+    public OldLzmaInputStream(InputStream in, Decoder decoder, boolean isDecoderConfigured)
     {
         super(in);
 

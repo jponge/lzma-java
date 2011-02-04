@@ -45,7 +45,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author Julien Ponge
  */
-public class LzmaOutputStream extends FilterOutputStream
+public class OldLzmaOutputStream extends FilterOutputStream
 {
     private final Encoder encoder;
 
@@ -120,12 +120,12 @@ public class LzmaOutputStream extends FilterOutputStream
         return currentBuffer == null || currentPosition == currentBuffer.length;
     }
 
-    public LzmaOutputStream(OutputStream out, Encoder encoder)
+    public OldLzmaOutputStream(OutputStream out, Encoder encoder)
     {
         this(out, encoder, false);
     }
 
-    public LzmaOutputStream(OutputStream out, Encoder encoder, boolean isEncoderConfigured)
+    public OldLzmaOutputStream(OutputStream out, Encoder encoder, boolean isEncoderConfigured)
     {
         super(out);
 
@@ -279,7 +279,7 @@ public class LzmaOutputStream extends FilterOutputStream
             return this;
         }
 
-        public LzmaOutputStream build()
+        public OldLzmaOutputStream build()
         {
             Encoder encoder = new Encoder();
 
@@ -288,7 +288,7 @@ public class LzmaOutputStream extends FilterOutputStream
             encoder.setMatchFinder(matchFinder);
             encoder.setNumFastBytes(numFastBytes);
 
-            return new LzmaOutputStream(out, encoder, false);
+            return new OldLzmaOutputStream(out, encoder, false);
         }
     }
 }

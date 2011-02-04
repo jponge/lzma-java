@@ -124,13 +124,13 @@ public class RoundtripTest
         // testing with defaults
         in = new BufferedInputStream( new FileInputStream( sourceFile ) );
         out =
-            new LzmaOutputStream.Builder( new BufferedOutputStream( new FileOutputStream( compressedFile ) ) ).build();
+            new OldLzmaOutputStream.Builder( new BufferedOutputStream( new FileOutputStream( compressedFile ) ) ).build();
 
         IOUtils.copy( in, out );
         in.close();
         out.close();
 
-        in = new LzmaInputStream( new BufferedInputStream( new FileInputStream( compressedFile ) ), new Decoder() );
+        in = new OldLzmaInputStream( new BufferedInputStream( new FileInputStream( compressedFile ) ), new Decoder() );
         out = new BufferedOutputStream( new FileOutputStream( decompressedFile ) );
 
         IOUtils.copy( in, out );
