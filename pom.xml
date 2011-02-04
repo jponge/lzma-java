@@ -38,6 +38,15 @@
                 <role>developer</role>
             </roles>
         </developer>
+        <developer>
+            <id>tamas</id>
+            <name>Tamas Cservenak</name>
+            <email>tamas@cservenak.com</email>
+            <url>http://www.cservenak.com/</url>
+            <roles>
+                <role>contributor</role>
+            </roles>
+        </developer>
     </developers>
 
     <dependencies>
