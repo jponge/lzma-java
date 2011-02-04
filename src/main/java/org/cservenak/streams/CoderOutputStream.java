@@ -16,66 +16,69 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package org.cservenak.streams;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 public class CoderOutputStream
-    extends OutputStream
+        extends OutputStream
 {
     private final CoderThread ct;
 
     private OutputStream out;
 
-    protected CoderOutputStream( final OutputStream out, final Coder coder )
-        throws IOException
+    protected CoderOutputStream(final OutputStream out, final Coder coder)
+            throws IOException
     {
-        this.ct = new CoderThread( coder, out );
+        this.ct = new CoderThread(coder, out);
 
         this.out = ct.getOutputStreamSink();
 
         this.ct.start();
     }
 
-    public void write( int b )
-        throws IOException
+    public void write(int b)
+            throws IOException
     {
-        out.write( b );
+        out.write(b);
     }
 
-    public void write( byte b[] )
-        throws IOException
+    public void write(byte b[])
+            throws IOException
     {
-        write( b, 0, b.length );
+        write(b, 0, b.length);
     }
 
-    public void write( byte b[], int off, int len )
-        throws IOException
+    public void write(byte b[], int off, int len)
+            throws IOException
     {
-        if ( ( off | len | ( b.length - ( len + off ) ) | ( off + len ) ) < 0 )
-            throw new IndexOutOfBoundsException();
-
-        for ( int i = 0; i < len; i++ )
+        if ((off | len | (b.length - (len + off)) | (off + len)) < 0)
         {
-            write( b[off + i] );
+            throw new IndexOutOfBoundsException();
+        }
+
+        for (int i = 0; i < len; i++)
+        {
+            write(b[off + i]);
         }
     }
 
     public void flush()
-        throws IOException
+            throws IOException
     {
         out.flush();
     }
 
     public void close()
-        throws IOException
+            throws IOException
     {
         try
         {
             flush();
         }
-        catch ( IOException ignored )
+        catch (IOException ignored)
         {
         }
 
@@ -85,9 +88,9 @@ public class CoderOutputStream
         {
             ct.join();
         }
-        catch ( InterruptedException e )
+        catch (InterruptedException e)
         {
-            throw new IOException( e );
+            throw new IOException(e);
         }
 
         ct.checkForException();

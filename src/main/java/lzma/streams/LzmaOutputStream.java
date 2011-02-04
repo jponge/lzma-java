@@ -18,12 +18,11 @@
 
 package lzma.streams;
 
+import lzma.sdk.lzma.Encoder;
+import org.cservenak.streams.CoderOutputStream;
+
 import java.io.IOException;
 import java.io.OutputStream;
-
-import lzma.sdk.lzma.Encoder;
-
-import org.cservenak.streams.CoderOutputStream;
 
 import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT2;
 import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT4;
@@ -35,18 +34,18 @@ import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT4;
  * @author Tamas Cservenak
  */
 public class LzmaOutputStream
-    extends CoderOutputStream
+        extends CoderOutputStream
 {
-    public LzmaOutputStream( final OutputStream out, final LzmaEncoderWrapper wrapper )
-        throws IOException
+    public LzmaOutputStream(final OutputStream out, final LzmaEncoderWrapper wrapper)
+            throws IOException
     {
-        super( out, wrapper );
+        super(out, wrapper);
     }
 
-    public LzmaOutputStream( final OutputStream out, final Encoder lzmaEncoder )
-        throws IOException
+    public LzmaOutputStream(final OutputStream out, final Encoder lzmaEncoder)
+            throws IOException
     {
-        this( out, new LzmaEncoderWrapper( lzmaEncoder ) );
+        this(out, new LzmaEncoderWrapper(lzmaEncoder));
     }
 
     /**

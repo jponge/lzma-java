@@ -19,41 +19,40 @@
 
 package lzma.streams;
 
-import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT2;
-import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT4;
+import lzma.sdk.lzma.Encoder;
+import org.cservenak.streams.Coder;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import lzma.sdk.lzma.Encoder;
-
-import org.cservenak.streams.Coder;
+import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT2;
+import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT4;
 
 public class LzmaEncoderWrapper
-    implements Coder
+        implements Coder
 {
     private final Encoder encoder;
 
-    public LzmaEncoderWrapper( final Encoder encoder )
+    public LzmaEncoderWrapper(final Encoder encoder)
     {
         this.encoder = encoder;
     }
 
     @Override
-    public void code( final InputStream in, final OutputStream out )
-        throws IOException
+    public void code(final InputStream in, final OutputStream out)
+            throws IOException
     {
-        encoder.writeCoderProperties( out );
+        encoder.writeCoderProperties(out);
 
         // write -1 as "unknown" for file size
         long fileSize = -1;
-        for ( int i = 0; i < 8; i++ )
+        for (int i = 0; i < 8; i++)
         {
-            out.write( (int) ( fileSize >>> ( 8 * i ) ) & 0xFF );
+            out.write((int) (fileSize >>> (8 * i)) & 0xFF);
         }
 
-        encoder.code( in, out, -1, -1, null );
+        encoder.code(in, out, -1, -1, null);
     }
 
     /**
@@ -93,7 +92,7 @@ public class LzmaEncoderWrapper
             return this;
         }
 
-        public Builder useEndMarkerMode( boolean endMarkerMode )
+        public Builder useEndMarkerMode(boolean endMarkerMode)
         {
             this.endMarkerMode = endMarkerMode;
             return this;
@@ -133,12 +132,12 @@ public class LzmaEncoderWrapper
         {
             Encoder encoder = new Encoder();
 
-            encoder.setDictionarySize( dictionnarySize );
-            encoder.setEndMarkerMode( endMarkerMode );
-            encoder.setMatchFinder( matchFinder );
-            encoder.setNumFastBytes( numFastBytes );
+            encoder.setDictionarySize(dictionnarySize);
+            encoder.setEndMarkerMode(endMarkerMode);
+            encoder.setMatchFinder(matchFinder);
+            encoder.setNumFastBytes(numFastBytes);
 
-            return new LzmaEncoderWrapper( encoder );
+            return new LzmaEncoderWrapper(encoder);
         }
     }
 }

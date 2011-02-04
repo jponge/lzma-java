@@ -16,6 +16,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package org.cservenak.streams;
 
 import java.io.IOException;
@@ -24,6 +25,6 @@ import java.io.OutputStream;
 
 public interface Coder
 {
-    void code( InputStream in, OutputStream out )
-        throws IOException;
+    void code(InputStream in, OutputStream out)
+            throws IOException;
 }

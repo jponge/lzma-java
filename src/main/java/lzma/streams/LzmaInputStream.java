@@ -18,12 +18,11 @@
 
 package lzma.streams;
 
+import lzma.sdk.lzma.Decoder;
+import org.cservenak.streams.CoderInputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import lzma.sdk.lzma.Decoder;
-
-import org.cservenak.streams.CoderInputStream;
 
 /**
  * An input stream that uses LZMA compression.
@@ -32,11 +31,11 @@ import org.cservenak.streams.CoderInputStream;
  * @author Tamas Cservenak
  */
 public class LzmaInputStream
-    extends CoderInputStream
+        extends CoderInputStream
 {
-    public LzmaInputStream( final InputStream in, final Decoder lzmaDecoder )
-        throws IOException
+    public LzmaInputStream(final InputStream in, final Decoder lzmaDecoder)
+            throws IOException
     {
-        super( in, new LzmaDecoderWrapper( lzmaDecoder ) );
+        super(in, new LzmaDecoderWrapper(lzmaDecoder));
     }
 }

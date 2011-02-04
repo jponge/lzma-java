@@ -16,18 +16,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package org.cservenak.streams;
 
-import java.io.Closeable;
-import java.io.Flushable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import java.io.*;
 
 public class CoderThread
-    extends Thread
+        extends Thread
 {
     private final PipedInputStream inSink;
 
@@ -37,55 +32,55 @@ public class CoderThread
 
     private Throwable throwable;
 
-    public CoderThread( final Coder coder, final InputStream in )
-        throws IOException
+    public CoderThread(final Coder coder, final InputStream in)
+            throws IOException
     {
         this.inSink = new PipedInputStream();
-        this.outSink = new PipedOutputStream( inSink );
+        this.outSink = new PipedOutputStream(inSink);
         this.workhorse = new Runnable()
         {
             public void run()
             {
                 try
                 {
-                    coder.code( in, outSink );
+                    coder.code(in, outSink);
 
-                    flush( outSink );
+                    flush(outSink);
                 }
-                catch ( Throwable e )
+                catch (Throwable e)
                 {
                     throwable = e;
                 }
                 finally
                 {
-                    close( outSink );
+                    close(outSink);
                 }
             }
         };
     }
 
-    public CoderThread( final Coder coder, final OutputStream out )
-        throws IOException
+    public CoderThread(final Coder coder, final OutputStream out)
+            throws IOException
     {
         this.outSink = new PipedOutputStream();
-        this.inSink = new PipedInputStream( outSink );
+        this.inSink = new PipedInputStream(outSink);
         this.workhorse = new Runnable()
         {
             public void run()
             {
                 try
                 {
-                    coder.code( inSink, out );
+                    coder.code(inSink, out);
 
-                    flush( out );
+                    flush(out);
                 }
-                catch ( Throwable e )
+                catch (Throwable e)
                 {
                     throwable = e;
                 }
                 finally
                 {
-                    close( inSink );
+                    close(inSink);
                 }
             }
         };
@@ -104,17 +99,17 @@ public class CoderThread
     }
 
     public void checkForException()
-        throws IOException
+            throws IOException
     {
-        if ( null != throwable )
+        if (null != throwable)
         {
-            if ( throwable instanceof IOException )
+            if (throwable instanceof IOException)
             {
                 throw (IOException) throwable;
             }
             else
             {
-                throw new IOException( throwable );
+                throw new IOException(throwable);
             }
         }
     }
@@ -131,9 +126,9 @@ public class CoderThread
 
     // ==
 
-    protected boolean flush( Flushable flushable )
+    protected boolean flush(Flushable flushable)
     {
-        if ( flushable != null )
+        if (flushable != null)
         {
             try
             {
@@ -141,7 +136,7 @@ public class CoderThread
 
                 return true;
             }
-            catch ( IOException e )
+            catch (IOException e)
             {
                 // mute
             }
@@ -150,9 +145,9 @@ public class CoderThread
         return false;
     }
 
-    protected boolean close( Closeable closeable )
+    protected boolean close(Closeable closeable)
     {
-        if ( closeable != null )
+        if (closeable != null)
         {
             try
             {
@@ -160,7 +155,7 @@ public class CoderThread
 
                 return true;
             }
-            catch ( IOException e )
+            catch (IOException e)
             {
                 // mute
             }

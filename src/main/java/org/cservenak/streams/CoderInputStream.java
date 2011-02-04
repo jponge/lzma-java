@@ -16,22 +16,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package org.cservenak.streams;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class CoderInputStream
-    extends InputStream
+        extends InputStream
 {
     private final CoderThread ct;
 
     private volatile InputStream in;
 
-    protected CoderInputStream( final InputStream in, final Coder coder )
-        throws IOException
+    protected CoderInputStream(final InputStream in, final Coder coder)
+            throws IOException
     {
-        this.ct = new CoderThread( coder, in );
+        this.ct = new CoderThread(coder, in);
 
         this.in = ct.getInputStreamSink();
 
@@ -40,42 +41,42 @@ public class CoderInputStream
 
     @Override
     public int read()
-        throws IOException
+            throws IOException
     {
         return in.read();
     }
 
     @Override
-    public int read( byte b[] )
-        throws IOException
+    public int read(byte b[])
+            throws IOException
     {
-        return read( b, 0, b.length );
+        return read(b, 0, b.length);
     }
 
     @Override
-    public int read( byte b[], int off, int len )
-        throws IOException
+    public int read(byte b[], int off, int len)
+            throws IOException
     {
-        return in.read( b, off, len );
+        return in.read(b, off, len);
     }
 
     @Override
-    public long skip( long n )
-        throws IOException
+    public long skip(long n)
+            throws IOException
     {
-        return in.skip( n );
+        return in.skip(n);
     }
 
     @Override
     public int available()
-        throws IOException
+            throws IOException
     {
         return in.available();
     }
 
     @Override
     public void close()
-        throws IOException
+            throws IOException
     {
         in.close();
 
@@ -83,23 +84,23 @@ public class CoderInputStream
         {
             ct.join();
         }
-        catch ( InterruptedException e )
+        catch (InterruptedException e)
         {
-            throw new IOException( e );
+            throw new IOException(e);
         }
 
         ct.checkForException();
     }
 
     @Override
-    public synchronized void mark( int readlimit )
+    public synchronized void mark(int readlimit)
     {
-        in.mark( readlimit );
+        in.mark(readlimit);
     }
 
     @Override
     public synchronized void reset()
-        throws IOException
+            throws IOException
     {
         in.reset();
     }
