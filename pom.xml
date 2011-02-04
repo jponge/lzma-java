@@ -47,6 +47,14 @@
                 <role>contributor</role>
             </roles>
         </developer>
+        <developer>
+            <id>lauri.hahne</id>
+            <name>Lauri Hahne</name>
+            <email>lauri.hahne@tut.fi</email>
+            <roles>
+                <role>contributor</role>
+            </roles>
+        </developer>
     </developers>
 
     <dependencies>
