@@ -38,6 +38,16 @@ Although not a derivate work, the streaming api classes were inspired from
 his technique of fake streams and working threads to pass the data around between
 encoders/decoders and "normal" Java streams.
 
+## Using from Maven ##
+
+The releases are pushed to Maven Central. Add the dependency as follows:
+
+    <dependency>
+        <groupId>com.github.jponge</groupId>
+        <artifactId>lzma-java</artifactId>
+        <version>1.2</version>
+    </dependency>
+
 ## Usage ##
 
 There are two main Java package hierarchies:
