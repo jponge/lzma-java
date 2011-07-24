@@ -437,13 +437,12 @@ public class Encoder
     {
         if (_matchFinder == null)
         {
-            lzma.sdk.lz.BinTree bt = new lzma.sdk.lz.BinTree();
             int numHashBytes = 4;
             if (_matchFinderType == EMatchFinderTypeBT2)
             {
                 numHashBytes = 2;
             }
-            bt.setType(numHashBytes);
+            lzma.sdk.lz.BinTree bt = new lzma.sdk.lz.BinTree(numHashBytes);
             _matchFinder = bt;
         }
         _literalEncoder.create(_numLiteralPosStateBits, _numLiteralContextBits);
