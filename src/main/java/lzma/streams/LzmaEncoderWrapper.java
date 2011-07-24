@@ -32,6 +32,13 @@ import static lzma.sdk.lzma.Encoder.EMatchFinderTypeBT4;
 public class LzmaEncoderWrapper
         implements Coder
 {
+    private final static byte[] MINUS_ONE = new byte[8];
+    static {
+        for (int i = 0; i < MINUS_ONE.length; ++i) {
+            MINUS_ONE[i] = (byte) -1;
+        }
+    }
+    
     private final Encoder encoder;
 
     public LzmaEncoderWrapper(final Encoder encoder)
@@ -44,21 +51,15 @@ public class LzmaEncoderWrapper
             throws IOException
     {
         encoder.writeCoderProperties(out);
-
         // write -1 as "unknown" for file size
-        long fileSize = -1;
-        for (int i = 0; i < 8; i++)
-        {
-            out.write((int) (fileSize >>> (8 * i)) & 0xFF);
-        }
-
+        out.write(MINUS_ONE);
         encoder.code(in, out, -1, -1, null);
     }
 
     /**
      * A convenient builder that makes it easier to configure the LZMA encoder. Default values:
      * <ul>
-     * <li>dictionnary size: 23 (almost max, so is memory hungry)</li>
+     * <li>dictionary size: 23 (almost max, so is memory hungry)</li>
      * <li>end marker mode: true</li>
      * <li>match finder: BT4</li>
      * <li>number of fast bytes: 0x20</li>

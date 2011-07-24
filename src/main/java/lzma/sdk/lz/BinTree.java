@@ -30,6 +30,7 @@
 package lzma.sdk.lz;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 
 public class BinTree extends InWindow
@@ -45,7 +46,7 @@ public class BinTree extends InWindow
     int _hashMask;
     int _hashSizeSum = 0;
 
-    boolean HASH_ARRAY = true;
+    private final boolean HASH_ARRAY;
 
     static final int kHash2Size = 1 << 10;
     static final int kHash3Size = 1 << 16;
@@ -59,31 +60,24 @@ public class BinTree extends InWindow
     int kMinMatchCheck = 4;
     int kFixHashSize = kHash2Size + kHash3Size;
 
-    public void setType(int numHashBytes)
+    public BinTree(int numHashBytes)
     {
         HASH_ARRAY = (numHashBytes > 2);
-        if (HASH_ARRAY)
-        {
+        if (HASH_ARRAY) {
             kNumHashDirectBytes = 0;
             kMinMatchCheck = 4;
             kFixHashSize = kHash2Size + kHash3Size;
-        }
-        else
-        {
+        } else {
             kNumHashDirectBytes = 2;
             kMinMatchCheck = 2 + 1;
             kFixHashSize = 0;
         }
     }
 
-
     public void init() throws IOException
     {
         super.init();
-        for (int i = 0; i < _hashSizeSum; i++)
-        {
-            _hash[i] = kEmptyHashValue;
-        }
+        Arrays.fill(_hash, 0, _hashSizeSum, kEmptyHashValue);
         _cyclicBufferPos = 0;
         reduceOffsets(-1);
     }
