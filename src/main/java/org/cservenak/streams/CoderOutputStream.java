@@ -58,11 +58,7 @@ public class CoderOutputStream
         {
             throw new IndexOutOfBoundsException();
         }
-
-        for (int i = 0; i < len; i++)
-        {
-            write(b[off + i]);
-        }
+        out.write(b, off, len);
     }
 
     public void flush()
@@ -78,8 +74,8 @@ public class CoderOutputStream
         {
             flush();
         }
-        catch (IOException ignored)
-        {
+        catch (IOException ignored) {
+            // why do we swallow exception here?!
         }
 
         out.close();
@@ -92,7 +88,6 @@ public class CoderOutputStream
         {
             throw new IOException(e);
         }
-
         ct.checkForException();
     }
 }
