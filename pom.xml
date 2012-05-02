@@ -13,7 +13,7 @@
     <artifactId>lzma-java</artifactId>
 
     <packaging>jar</packaging>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3</version>
 
     <name>LZMA Java</name>
     <description>LZMA library for Java</description>
