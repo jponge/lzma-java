@@ -51,13 +51,16 @@ public class LzmaDecoderWrapper
             throw new IOException("Decoder properties cannot be set!");
         }
 
-        // skip 8 bytes for file size
-        if (in.skip(8) != 8)
-        {
-            throw new IOException("LZMA file has no file size encoded!");
-        }
+		long outSize = 0;
+		for (int i = 0; i < 8; i++)
+		{
+			int v = in.read();
+			if (v < 0)
+				throw new IOException("Can't read stream size");
+			outSize |= ((long)v) << (8 * i);
+		}
 
-        if (!decoder.code(in, out, -1))
+        if (!decoder.code(in, out, outSize))
         {
             throw new IOException("Decoding unsuccessful!");
         }
