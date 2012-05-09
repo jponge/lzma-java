@@ -1,5 +1,7 @@
 # LZMA library for Java #
 
+[![Build Status](https://secure.travis-ci.org/jponge/lzma-java.png)](http://travis-ci.org/jponge/lzma-java)
+
 [http://jponge.github.com/lzma-java](http://jponge.github.com/lzma-java)
 
 This library provides LZMA compression for applications that run on the Java platform.
