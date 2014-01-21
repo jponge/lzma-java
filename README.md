@@ -1,3 +1,9 @@
+**Important: this project is not maintained anymore.**
+
+You should look at the [Apache Commons Compress project](https://commons.apache.org/proper/commons-compress/)
+for a rich set of supported compression formats, including LZMA.
+
+
 # LZMA library for Java #
 
 [![Build Status](https://secure.travis-ci.org/jponge/lzma-java.png)](http://travis-ci.org/jponge/lzma-java)
