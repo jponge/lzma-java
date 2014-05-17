@@ -61,7 +61,7 @@ The releases are pushed to Maven Central. Add the dependency as follows:
 There are two main Java package hierarchies:
 
 * `lzma.sdk` is the (reworked) Java LZMA SDK code, and
-* `lzma.streams` contains the `LzmaInputStream` and `LzmaInputStream` classes.
+* `lzma.streams` contains the `LzmaInputStream` and `LzmaOutputStream` classes.
 
 You will probably only be interested in using the `lzma.streams` package. The two
 stream classes use the good practices of constructor dependency injection, and you will
